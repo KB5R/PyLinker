@@ -3,8 +3,7 @@ import sys                   # stdin stdout and system function
 import tty                   # Teletype
 import termios               # управления параметрами терминала (например, echo)
 import select                # одновременное чтения stdin и SSH
-import getpass               # Для безопасного ввода пароля без отображения
-import logging               # Для вывода логов (вместо обычных print)
+import logging               # logs
 
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
@@ -93,5 +92,5 @@ if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
-        print('Exit')
+        logging.info("Exit programm")
 
