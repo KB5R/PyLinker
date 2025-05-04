@@ -1,6 +1,17 @@
-[groups-1]
-host1 = { ip = "192.168.31.100", port = "22", user = "pmk", password = "chiiiina" }
+[groups-1.host1]
+ip = "192.168.31.100"
+port = "22"
+user = "pmk"
+password = "chiiiina"
 
+[groups-2.host1]
+ip = "192.168.31.101"
+port = "22"
+user = "pmk"
+password = "chiiiina"
 
-[groups-2]
-host1 = { ip = "192.168.31.101", port = "22", user = "pmk", password = "chiiiina" }
+[group-3.host-1]
+ip = "192.168.1.1"
+port = "22"
+user = "pmk"
+password = "qwe123"

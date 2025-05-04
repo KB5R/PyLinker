@@ -30,7 +30,7 @@ def load_toml():
                 details.get("ip"),
                 details.get("port"),
                 details.get("user"),
-                "••••••"  # скрытый пароль
+                details.get("password")
             ])
 
     headers = ["№", "Groups", "Name_hosts", "IP", "Port", "User", "Password"]
@@ -48,12 +48,13 @@ def choose_host():
             selected = host_entries[choice - 1]
 
             # Сохраняем в переменные
+
             ip = selected["ip"]
             port = selected["port"]
             user = selected["user"]
             password = selected["password"]
 
-            print("\n✅ Вы выбрали:")
+  
             print(f"IP: {ip}")
             print(f"Порт: {port}")
             print(f"Пользователь: {user}")
@@ -68,7 +69,42 @@ def choose_host():
         return None
 
 
+def add_entry_toml():
+    # .strip() удаляет пробелы с левого края так же и с правого
+    group = input("Введите имя существующей группы или новую для её создания: ").strip()
+    name = input("Введите имя нового хоста (должно быть уникальным в пределах группы): ").strip()
+
+    ip = input("Введите адрес хоста (example.com или 192.168.1.1): ").strip()
+    port = input("Введите порт (например, 22): ").strip()
+    user = input("Введите пользователя: ").strip()
+    password = input("Введите пароль: ").strip()
+
+    # Создаём группу, если её ещё нет
+    if group not in config:
+        config[group] = {}
+
+    # Проверzка имени
+    if name in config[group]:
+        print(f"Ошибка: Хост с именем '{name}' уже существует в группе '{group}'!")
+        return
+
+    # Add host
+    config[group][name] = {
+        "ip": ip,
+        "port": port,
+        "user": user,
+        "password": password
+    }
+
+    # Writ file
+    with open("config.toml", "w") as f:
+        toml.dump(config, f)
+
+    print(f"Хост '{name}' успешно добавлен в группу '{group}' и сохранён.")
+
+
 def main():
+    add_entry_toml()
     print("Выберите что вы хотите сделать")
     print("Показать полный список:  [1]")
     try:
