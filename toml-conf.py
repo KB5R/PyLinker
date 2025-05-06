@@ -69,8 +69,9 @@ def choose_host():
         return None
 
 
+import toml
+
 def add_entry_toml():
-    # .strip() удаляет пробелы с левого края так же и с правого
     group = input("Введите имя существующей группы или новую для её создания: ").strip()
     name = input("Введите имя нового хоста (должно быть уникальным в пределах группы): ").strip()
 
@@ -83,12 +84,11 @@ def add_entry_toml():
     if group not in config:
         config[group] = {}
 
-    # Проверzка имени
     if name in config[group]:
         print(f"Ошибка: Хост с именем '{name}' уже существует в группе '{group}'!")
         return
 
-    # Add host
+    # Добавляем запись
     config[group][name] = {
         "ip": ip,
         "port": port,
@@ -96,15 +96,20 @@ def add_entry_toml():
         "password": password
     }
 
-    # Writ file
+    # Генерируем строку вручную для inline table
     with open("config.toml", "w") as f:
-        toml.dump(config, f)
+        for group_name, hosts in config.items():
+            f.write(f"[{group_name}]\n")
+            for host_name, details in hosts.items():
+                inline = ", ".join([f'{k} = "{v}"' for k, v in details.items()])
+                f.write(f'{host_name} = {{ {inline} }}\n')
+            f.write("\n")
 
     print(f"Хост '{name}' успешно добавлен в группу '{group}' и сохранён.")
 
 
+
 def main():
-    add_entry_toml()
     print("Выберите что вы хотите сделать")
     print("Показать полный список:  [1]")
     try:
