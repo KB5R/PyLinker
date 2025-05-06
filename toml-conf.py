@@ -33,7 +33,7 @@ def load_toml():
                 details.get("password")
             ])
 
-    headers = ["№", "Groups", "Name_hosts", "IP", "Port", "User", "Password"]
+    headers = ["№", "Groups", "Host-Name", "IP", "Port", "User", "Password"]
     
     # Добавляем нумерацию строк
     numbered_table = [[i+1] + row for i, row in enumerate(table_data)]
@@ -54,7 +54,7 @@ def choose_host():
             user = selected["user"]
             password = selected["password"]
 
-  
+            print(f"Имя хоста: {selected['host_name']}")
             print(f"IP: {ip}")
             print(f"Порт: {port}")
             print(f"Пользователь: {user}")
@@ -107,9 +107,46 @@ def add_entry_toml():
 
     print(f"Хост '{name}' успешно добавлен в группу '{group}' и сохранён.")
 
+def del_entry_toml():
+    print("Выберите какой host вы хотите удалить")
+    load_toml()
+
+    try:
+        choice = int(input("\nВведите номер хоста для удаления: "))
+        if 1 <= choice <= len(host_entries):
+            selected = host_entries[choice - 1]
+            group = selected["group"]
+            host_name = selected["host_name"]
+
+            confirm = input(f"Удалить хост '{host_name}' из группы '{group}'? (y/n): ").strip().lower()
+            if confirm == 'y':
+                del config[group][host_name]
+
+                # Если группа пуста — удалить и её
+                if not config[group]:
+                    del config[group]
+
+                # Сохраняем изменения
+                with open("config.toml", "w") as f:
+                    for group_name, hosts in config.items():
+                        f.write(f"[{group_name}]\n")
+                        for host_name, details in hosts.items():
+                            inline = ", ".join([f'{k} = "{v}"' for k, v in details.items()])
+                            f.write(f'{host_name} = {{ {inline} }}\n')
+                        f.write("\n")
+
+                print(f"Хост '{host_name}' успешно удалён.")
+            else:
+                print("Удаление отменено.")
+        else:
+            print("Неверный номер.")
+    except ValueError:
+        print("Введите корректное число.")
+
 
 
 def main():
+    del_entry_toml()
     print("Выберите что вы хотите сделать")
     print("Показать полный список:  [1]")
     try:

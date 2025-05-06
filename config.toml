@@ -1,3 +1,0 @@
-[infra]
-ubuntu22.04 = { ip = "192.168.1.2", port = "22", user = "pmk", password = "qwe" }
-
