@@ -1,5 +1,8 @@
 import toml
 from tabulate import tabulate
+import termios
+import tty
+import sys
 
 # Загрузка конфига
 with open("config.toml") as f:
@@ -142,22 +145,36 @@ def del_entry_toml():
     except ValueError:
         print("Введите корректное число.")
 
-
+def getch():
+    """Читает один символ с клавиатуры без отображения и без Enter (Linux/macOS)"""
+    fd = sys.stdin.fileno()
+    old_settings = termios.tcgetattr(fd)
+    try:
+        tty.setraw(fd)
+        ch = sys.stdin.read(1)
+        print()  # Чтобы перейти на новую строку после ввода
+    finally:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+    return ch
 
 def toml_conf():
     while True:
         load_toml()
         print("Select a task for toml")
         print("1. Add entry toml")
-        print("2. Dell entry toml")
+        print("2. Del entry toml")
         print("0. Exit")
-        number = int(input())
-        if number == 1:
+        
+        ch = getch()
+
+        if ch == '1':
             add_entry_toml()
-        elif number == 2:
+        elif ch == '2':
             del_entry_toml()
-        elif number == 0:
+        elif ch == '0':
             break
+        else:
+            print("Unknown sig.")
     
 
 
