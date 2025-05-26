@@ -33,7 +33,7 @@ def load_toml():
                 details.get("password")
             ])
 
-    headers = ["№", "Groups", "Host-Name", "IP", "Port", "User", "Password"]
+    headers = ["№", "Groups", "Hostname", "IP", "Port", "User", "Password"]
     
     # Добавляем нумерацию строк
     numbered_table = [[i+1] + row for i, row in enumerate(table_data)]
@@ -69,7 +69,6 @@ def choose_host():
         return None
 
 
-import toml
 
 def add_entry_toml():
     group = input("Введите имя существующей группы или новую для её создания: ").strip()
@@ -145,22 +144,22 @@ def del_entry_toml():
 
 
 
-def main():
-    del_entry_toml()
-    print("Выберите что вы хотите сделать")
-    print("Показать полный список:  [1]")
-    try:
-        id = int(input())
-    except ValueError:
-        print("Введите число!")
-        return
-
-    if id == 1:
+def toml_conf():
+    while True:
         load_toml()
-        choose_host()
-    else:
-        print("Вы вышли из программы")
+        print("Select a task for toml")
+        print("1. Add entry toml")
+        print("2. Dell entry toml")
+        print("0. Exit")
+        number = int(input())
+        if number == 1:
+            add_entry_toml()
+        elif number == 2:
+            del_entry_toml()
+        elif number == 0:
+            break
+    
 
 
 if __name__ == "__main__":
-    main()
+    toml_conf()
