@@ -1,8 +1,8 @@
 import toml
-from tabulate import tabulate
 import termios
 import tty
 import sys
+from tabulate import tabulate
 
 # Загрузка конфига
 with open("config.toml") as f:
@@ -78,7 +78,8 @@ def add_entry_toml():
     name = input("Введите имя нового хоста (должно быть уникальным в пределах группы): ").strip()
 
     ip = input("Введите адрес хоста (example.com или 192.168.1.1): ").strip()
-    port = input("Введите порт (например, 22): ").strip()
+    port_input = input("Введите порт (по умолчанию 22): ").strip()
+    port = int(port_input) if port_input else 22
     user = input("Введите пользователя: ").strip()
     password = input("Введите пароль: ").strip()
 
@@ -146,13 +147,12 @@ def del_entry_toml():
         print("Введите корректное число.")
 
 def getch():
-    """Читает один символ с клавиатуры без отображения и без Enter (Linux/macOS)"""
     fd = sys.stdin.fileno()
     old_settings = termios.tcgetattr(fd)
     try:
         tty.setraw(fd)
         ch = sys.stdin.read(1)
-        print()  # Чтобы перейти на новую строку после ввода
+        print()
     finally:
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
     return ch
