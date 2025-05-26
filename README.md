@@ -2,5 +2,5 @@
 
 #### Stack
 * Python 3
-* Asyncssh
+* Paramiko
 * Toml
