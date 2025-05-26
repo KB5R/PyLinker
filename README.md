@@ -2,5 +2,5 @@
 
 #### Stack
 * Python 3
-* Paramiko
+* OpenSSH
 * Toml
