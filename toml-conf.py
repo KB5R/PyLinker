@@ -163,6 +163,7 @@ def toml_conf():
         print("Select a task for toml")
         print("1. Add entry toml")
         print("2. Del entry toml")
+        print("3. Output entry toml")
         print("0. Exit")
         
         ch = getch()
@@ -171,6 +172,8 @@ def toml_conf():
             add_entry_toml()
         elif ch == '2':
             del_entry_toml()
+        elif ch == '3':
+            choose_host()
         elif ch == '0':
             break
         else:
