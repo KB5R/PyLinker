@@ -26,5 +26,6 @@ Useful for:
 - ⚠️ Timeouts
 - ⚠️ Advanced error recovery  
 - ⚠️ SFTP
+- ⚠️ TUI
 - ⚠️ SCP
 - ⚠️ And a lot more
