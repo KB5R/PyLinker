@@ -45,6 +45,7 @@ def load_toml():
 
 
 def choose_host():
+    load_toml()
     try:
         choice = int(input("\nВыберите номер хоста: "))
         if 1 <= choice <= len(host_entries):
@@ -178,8 +179,3 @@ def toml_conf():
             break
         else:
             print("Unknown sig.")
-    
-
-
-if __name__ == "__main__":
-    toml_conf()
