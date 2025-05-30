@@ -44,15 +44,12 @@ def load_toml():
     print(tabulate(numbered_table, headers=headers, tablefmt="grid"))
 
 
-def choose_host():
+def output_host():
     load_toml()
     try:
         choice = int(input("\nВыберите номер хоста: "))
         if 1 <= choice <= len(host_entries):
             selected = host_entries[choice - 1]
-
-            # Сохраняем в переменные
-
             ip = selected["ip"]
             port = selected["port"]
             user = selected["user"]
@@ -100,7 +97,7 @@ def add_entry_toml():
         "password": password
     }
 
-    # Генерируем строку вручную для inline table
+    # Генерируем строку вручную
     with open("config.toml", "w") as f:
         for group_name, hosts in config.items():
             f.write(f"[{group_name}]\n")
@@ -174,7 +171,7 @@ def toml_conf():
         elif ch == '2':
             del_entry_toml()
         elif ch == '3':
-            choose_host()
+            output_host()
         elif ch == '0':
             break
         else:
