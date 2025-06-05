@@ -1,9 +1,8 @@
 import toml
-import termios
-import tty
-import sys
 from tabulate import tabulate
-
+from prompt_toolkit import prompt
+from prompt_toolkit.shortcuts import button_dialog
+from prompt_toolkit.shortcuts import radiolist_dialog
 # Загрузка конфига
 with open("config.toml") as f:
     config = toml.load(f)
@@ -144,35 +143,49 @@ def del_entry_toml():
     except ValueError:
         print("Введите корректное число.")
 
-def getch():
-    fd = sys.stdin.fileno()
-    old_settings = termios.tcgetattr(fd)
-    try:
-        tty.setraw(fd)
-        ch = sys.stdin.read(1)
-        print()
-    finally:
-        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-    return ch
+# def getch():
+#     fd = sys.stdin.fileno()
+#     old_settings = termios.tcgetattr(fd)
+#     try:
+#         tty.setraw(fd)
+#         ch = sys.stdin.read(1)
+#         print()
+#     finally:
+#         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+#     return ch
 
 def toml_conf():
     while True:
         load_toml()
-        print("Select a task for toml")
-        print("1. Add entry toml")
-        print("2. Del entry toml")
-        print("3. Output entry toml")
-        print("0. Exit")
+        button_toml = radiolist_dialog(
+            title="SSH Client Menu",
+            text="Select a task for toml",
+            values=[
+                ("Add",  "1. Add entry toml"),
+                ("Dell", "2. Del entry toml"),
+                ("Output", "3. Output entry toml"),
+                ("Exit", "0. Exit")
+            ],
+        ).run()
         
-        ch = getch()
+        # 
 
-        if ch == '1':
+
+        # print("Select a task for toml")
+        # print("1. Add entry toml")
+        # print("2. Del entry toml")
+        # print("3. Output entry toml")
+        # print("0. Exit")
+        
+        # ch = getch()
+
+        if button_toml == "Add":
             add_entry_toml()
-        elif ch == '2':
+        elif button_toml == "Dell":
             del_entry_toml()
-        elif ch == '3':
+        elif button_toml == "Output":
             output_host()
-        elif ch == '0':
+        elif button_toml == "Exit":
             break
         else:
             print("Unknown sig.")

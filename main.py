@@ -46,7 +46,7 @@ def main():
             title="SSH Client Menu",
             text="Select action:",
             values=[
-                ("ssh", "1. Connect to SSH"),
+                ("ssh",  "1. Connect to SSH"),
                 ("toml", "2. Settings database (TOML)"),
                 ("exit", "0. Exit"),
             ],
