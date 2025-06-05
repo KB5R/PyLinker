@@ -1,8 +1,9 @@
 
 import subprocess
 import logging
-
-
+from prompt_toolkit import prompt
+from prompt_toolkit.shortcuts import button_dialog
+from prompt_toolkit.shortcuts import radiolist_dialog
 from toml_config import load_toml, add_entry_toml, del_entry_toml, toml_conf, output_host # Func from toml_conf.py
 
 
@@ -30,19 +31,6 @@ def inteactive_session_ssh(host, user, port, password):
     except Exception as e:
         logging.error(f"Unexpected error occurred: {e}")
 
-# Данная функция снизу не требуется больше пока оставлю ее что бы понимать более подробно работу
-# def connect_to_inteactive_session_ssh():
-#     host = input("Enter destination hosts:")
-#     user = input("Enter name users: ")
-#     port_input = input("Enter port [default 22]: ").strip()
-#     if port_input:
-#         port = int(port_input)
-#     else:
-#         port = 22
-#     password = input("Enter password: ").strip()
-#     output_host()
-
-#     inteactive_session_ssh(host, user, port, password)
 
 def connect_to_inteactive_session_ssh():
     result = output_host() # Получаем данные
@@ -51,22 +39,25 @@ def connect_to_inteactive_session_ssh():
         # Передвем данные дальше
         inteactive_session_ssh(host, user, port, password)
 
+
 def main():
     while True:
-        print("Выберите подключение")
-        print("1. Connect to SSH")
-        print("2. Working with the database")
-        print("0. Exit")
+        button_main = radiolist_dialog(
+            title="SSH Client Menu",
+            text="Select action:",
+            values=[
+                ("ssh", "1. Connect to SSH"),
+                ("toml", "2. Settings database (TOML)"),
+                ("exit", "0. Exit"),
+            ],
+        ).run()
 
-        id = int(input())
-
-        if id == 1:
+        if button_main == "ssh":
             connect_to_inteactive_session_ssh()
-        elif id == 2:
+        elif button_main == "toml":
             toml_conf()
-        elif id == 0:
+        elif button_main == "exit":
             break
-
 
 if __name__ == "__main__":
     main()

@@ -1,4 +1,3 @@
 [groups]
 new-hosts = { ip = "10.236.0.190", port = "22", user = "root", password = "root" }
-worker2 = { ip = "10.236.0.191", port = "22", user = "root", password = "root" }
 
