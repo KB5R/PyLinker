@@ -2,9 +2,9 @@
 [![License: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-red.svg)](LICENSE)  
 ⚠ **Unstable version**
 
+# Version
+- 1.0 (Experimental) 09.06.25
 
-
- 
 
 ## Overview  
 A lightweight Python SSH client wrapper for automating secure shell connections.  
@@ -20,12 +20,17 @@ Useful for:
 - ✔ Basic SSH authentication (password-based)  
 - ✔ Interactive session handling  
 
+## Legend
+- ✅ Done
+- 🔶 Partial / Experimental
+- ⚠️ Planned
 ## Plans
-- 🔴 Improve code quality
+- 🔶 TUI
+- 🔶 Timeouts
+- ⚠️ Improve code quality
 - ⚠️ Key-based auth
-- ⚠️ Timeouts
 - ⚠️ Advanced error recovery  
 - ⚠️ SFTP
-- ⚠️ TUI
 - ⚠️ SCP
 - ⚠️ And a lot more
+
