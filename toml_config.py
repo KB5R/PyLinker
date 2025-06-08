@@ -3,6 +3,7 @@ from tabulate import tabulate
 from prompt_toolkit import prompt
 from prompt_toolkit.shortcuts import button_dialog
 from prompt_toolkit.shortcuts import radiolist_dialog
+from prompt_toolkit.styles import Style
 # Загрузка конфига
 with open("config.toml") as f:
     config = toml.load(f)
@@ -44,11 +45,67 @@ def load_toml():
 
 
 def output_host():
-    load_toml()
+    if not config:
+        print("Конфигурация пуста.")
+        return None
+
+    # 1. Выбор группы
+    custom_style = Style.from_dict({
+    "dialog": "bg:#002b36",
+    "dialog frame.label": "bg:#002b36 #00ff00",  # цвет заголовка
+    "dialog.body": "bg:#002b36 #00ff00",         # фон и цвет текста
+    "button": "bg:#002b36 #00ff00",
+    "button.focused": "bg:#00ff00 #000000",       # активная кнопка
+    "radiolist": "bg:#002b36 #00ff00",
+    "radiolist focused": "bg:#00ff00 #000000",
+})  
+    group = radiolist_dialog(
+        title="Выбор группы",
+        text="Выберите группу хостов:",
+        values=[(g, g) for g in config.keys()],
+        style=custom_style
+    ).run()
+    
+    if group is None:
+        print("Группа не выбрана.")
+        return None
+
+    hosts = config.get(group, {})
+    if not hosts:
+        print(f"Группа '{group}' не содержит хостов.")
+        return None
+
+    # 2. Подготовка таблицы и выбора
+    local_host_entries = []
+    local_table = []
+
+    for host_name, details in hosts.items():
+        entry = {
+            "group": group,
+            "host_name": host_name,
+            "ip": details.get("ip"),
+            "port": details.get("port"),
+            "user": details.get("user"),
+            "password": details.get("password")
+        }
+        local_host_entries.append(entry)
+        local_table.append([
+            host_name,
+            details.get("ip", ""),
+            details.get("port", ""),
+            details.get("user", ""),
+            details.get("password", "")
+        ])
+
+    headers = ["№", "Hostname", "IP", "Port", "User", "Password"]
+    numbered_table = [[i + 1] + row for i, row in enumerate(local_table)]
+    print(tabulate(numbered_table, headers=headers, tablefmt="grid"))
+
+    # 3. Выбор хоста
     try:
-        choice = int(input("\nВыберите номер хоста: "))
-        if 1 <= choice <= len(host_entries):
-            selected = host_entries[choice - 1]
+        choice = int(input("\nВведите номер хоста для вывода: "))
+        if 1 <= choice <= len(local_host_entries):
+            selected = local_host_entries[choice - 1]
             ip = selected["ip"]
             port = selected["port"]
             user = selected["user"]
@@ -143,20 +200,19 @@ def del_entry_toml():
     except ValueError:
         print("Введите корректное число.")
 
-# def getch():
-#     fd = sys.stdin.fileno()
-#     old_settings = termios.tcgetattr(fd)
-#     try:
-#         tty.setraw(fd)
-#         ch = sys.stdin.read(1)
-#         print()
-#     finally:
-#         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-#     return ch
 
 def toml_conf():
     while True:
         load_toml()
+        custom_style = Style.from_dict({
+    "dialog": "bg:#002b36",
+    "dialog frame.label": "bg:#002b36 #00ff00",  # цвет заголовка
+    "dialog.body": "bg:#002b36 #00ff00",         # фон и цвет текста
+    "button": "bg:#002b36 #00ff00",
+    "button.focused": "bg:#00ff00 #000000",       # активная кнопка
+    "radiolist": "bg:#002b36 #00ff00",
+    "radiolist focused": "bg:#00ff00 #000000",
+})
         button_toml = radiolist_dialog(
             title="SSH Client Menu",
             text="Select a task for toml",
@@ -166,18 +222,9 @@ def toml_conf():
                 ("Output", "3. Output entry toml"),
                 ("Exit", "0. Exit")
             ],
+            style=custom_style
         ).run()
         
-        # 
-
-
-        # print("Select a task for toml")
-        # print("1. Add entry toml")
-        # print("2. Del entry toml")
-        # print("3. Output entry toml")
-        # print("0. Exit")
-        
-        # ch = getch()
 
         if button_toml == "Add":
             add_entry_toml()

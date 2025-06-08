@@ -5,6 +5,7 @@ from prompt_toolkit import prompt
 from prompt_toolkit.shortcuts import button_dialog
 from prompt_toolkit.shortcuts import radiolist_dialog
 from toml_config import load_toml, add_entry_toml, del_entry_toml, toml_conf, output_host # Func from toml_conf.py
+from prompt_toolkit.styles import Style
 
 
 def inteactive_session_ssh(host, user, port, password):
@@ -40,8 +41,20 @@ def connect_to_inteactive_session_ssh():
         inteactive_session_ssh(host, user, port, password)
 
 
+
+
 def main():
     while True:
+        custom_style = Style.from_dict({
+    "dialog": "bg:#002b36",
+    "dialog frame.label": "bg:#002b36 #00ff00",  # цвет заголовка
+    "dialog.body": "bg:#002b36 #00ff00",         # фон и цвет текста
+    "button": "bg:#002b36 #00ff00",
+    "button.focused": "bg:#00ff00 #000000",       # активная кнопка
+    "radiolist": "bg:#002b36 #00ff00",
+    "radiolist focused": "bg:#00ff00 #000000",
+})
+        
         button_main = radiolist_dialog(
             title="SSH Client Menu",
             text="Select action:",
@@ -50,6 +63,7 @@ def main():
                 ("toml", "2. Settings database (TOML)"),
                 ("exit", "0. Exit"),
             ],
+            style=custom_style
         ).run()
 
         if button_main == "ssh":
