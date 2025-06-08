@@ -3,7 +3,7 @@
 ⚠ **Unstable version**
 
 # Version
-- 1.0 (Experimental) 09.06.25
+- 0.1 (Experimental) 09.06.25
 
 
 ## Overview  
