@@ -20,8 +20,6 @@ def inteactive_session_ssh(host, user, port, password):
 
         subprocess.run(cmd, check=True) # Run 
 
-        # Обработчики ошибок не понятно работают ли они 
-        # Надо проверять !!!
         logging.info("Run ssh session...")
     except subprocess.TimeoutExpired:
         logging.error("SSH session killed due to timeout.")
@@ -59,11 +57,48 @@ def main():
             title="SSH Client Menu",
             text="Select action:",
             values=[
+                ("ssh_main",  "1. SSH"),
+                ("sftp_main", "2. SFTP [OFF]"),
+                ("vnc_main", "3. VNC [OFF]"),
+                ("rdp_main", "4. RDP [OFF]"),
+                ("exit", "0. Exit"),
+            ],
+            style=custom_style # Подключение themes
+        ).run()
+
+        if button_main == "ssh_main":
+            ssh_menu()
+        elif button_main == "sftp_mai": # Обртите внимание на комнду для обработаки так называемые заглушки
+            ssh_menu() 
+        elif button_main == "vnc_mai": # Обртите внимание на комнду для обработаки так называемые заглушки
+            ssh_menu()
+        elif button_main == "rdp_mai": # Обртите внимание на комнду для обработаки так называемые заглушки
+            ssh_menu()
+        elif button_main == "exit":
+            break
+
+
+def ssh_menu():
+    while True:
+        custom_style = Style.from_dict({
+    "dialog": "bg:#002b36",
+    "dialog frame.label": "bg:#002b36 #00ff00",  # цвет заголовка
+    "dialog.body": "bg:#002b36 #00ff00",         # фон и цвет текста
+    "button": "bg:#002b36 #00ff00",
+    "button.focused": "bg:#00ff00 #000000",       # активная кнопка
+    "radiolist": "bg:#002b36 #00ff00",
+    "radiolist focused": "bg:#00ff00 #000000",
+})
+        
+        button_main = radiolist_dialog(
+            title="SSH Client Menu",
+            text="Select action:",
+            values=[
                 ("ssh",  "1. Connect to SSH"),
                 ("toml", "2. Settings database (TOML)"),
                 ("exit", "0. Exit"),
             ],
-            style=custom_style
+            style=custom_style # Подключение themes
         ).run()
 
         if button_main == "ssh":

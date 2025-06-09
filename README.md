@@ -1,4 +1,4 @@
-# SSH Client (Python)  
+# PyLinker (Python)  
 [![License: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-red.svg)](LICENSE)  
 ⚠ **Unstable version**
 
