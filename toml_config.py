@@ -1,4 +1,5 @@
 import toml
+import logging
 from tabulate import tabulate
 from prompt_toolkit import prompt
 from prompt_toolkit.shortcuts import button_dialog
@@ -10,6 +11,15 @@ with open("config.toml") as f:
 
 table_data = []
 host_entries = []  # Список для хранения данных по порядку (для выбора по индексу)
+
+
+logging.basicConfig(
+    filename='pylinker.log',            # Имя файла логов
+    filemode='a',                         # Режим дозаписи (append)
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    level=logging.INFO
+)
+
 
 
 def load_toml():
@@ -163,6 +173,7 @@ def add_entry_toml():
             f.write("\n")
 
     print(f"Хост '{name}' успешно добавлен в группу '{group}' и сохранён.")
+    logging.info(f"Хост '{name}' успешно добавлен в группу '{group}' и сохранён.")
 
 def del_entry_toml():
     print("Выберите какой host вы хотите удалить")

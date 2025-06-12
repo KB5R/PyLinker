@@ -7,6 +7,14 @@ from prompt_toolkit.shortcuts import radiolist_dialog
 from toml_config import load_toml, add_entry_toml, del_entry_toml, toml_conf, output_host # Func from toml_conf.py
 from prompt_toolkit.styles import Style
 
+# import loging
+logging.basicConfig(
+    filename='pylinker.log',            # Имя файла логов
+    filemode='a',                         # Режим дозаписи (append)
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    level=logging.INFO
+)
+
 
 def inteactive_session_ssh(host, user, port, password):
     try:
@@ -18,9 +26,11 @@ def inteactive_session_ssh(host, user, port, password):
 
 
 
-        subprocess.run(cmd, check=True) # Run 
+        logging.info(f"Starting SSH session to {user}@{host}:{port}")
+        subprocess.run(cmd, check=True, timeout=15) # Run Поставил timeout=15c
+        logging.info(f"SSH session to {user}@{host}:{port} finished successfully")
 
-        logging.info("Run ssh session...")
+
     except subprocess.TimeoutExpired:
         logging.error("SSH session killed due to timeout.")
 
