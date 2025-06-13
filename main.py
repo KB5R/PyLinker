@@ -27,7 +27,7 @@ def inteactive_session_ssh(host, user, port, password):
 
 
         logging.info(f"Starting SSH session to {user}@{host}:{port}")
-        subprocess.run(cmd, check=True, timeout=15) # Run Поставил timeout=15c
+        subprocess.run(cmd, check=True)
         logging.info(f"SSH session to {user}@{host}:{port} finished successfully")
 
 

@@ -1,3 +1,0 @@
-2025-06-12 22:12:26,609 - INFO - Starting SSH session to root@192.168.1.1:22
-2025-06-12 22:12:41,610 - ERROR - SSH session killed due to timeout.
-2025-06-13 00:43:53,616 - INFO - Хост '12ц' успешно добавлен в группу '12' и сохранён.
