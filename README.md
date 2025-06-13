@@ -27,6 +27,7 @@ Useful for:
 ## Plans
 - 🔶 TUI
 - 🔶 Timeouts
+- 🔶 Password to keyring
 - ⚠️ Improve code quality
 - ⚠️ Key-based auth
 - ⚠️ Advanced error recovery  
