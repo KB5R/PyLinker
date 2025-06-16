@@ -3,8 +3,7 @@ import logging
 import keyring
 from getpass import getpass
 from tabulate import tabulate
-from prompt_toolkit import prompt
-from prompt_toolkit.shortcuts import button_dialog
+from prompt_toolkit.shortcuts import message_dialog
 from prompt_toolkit.shortcuts import radiolist_dialog
 from prompt_toolkit.styles import Style
 # Загрузка конфига
@@ -22,6 +21,15 @@ logging.basicConfig(
     level=logging.INFO
 )
 
+custom_style = Style.from_dict({ # Вынес что бы не дублировать (Черный фон, зеленые линии)
+    "dialog": "bg:#002b36",
+    "dialog frame.label": "bg:#002b36 #00ff00",  # цвет заголовка
+    "dialog.body": "bg:#002b36 #00ff00",         # фон и цвет текста
+    "button": "bg:#002b36 #00ff00",
+    "button.focused": "bg:#00ff00 #000000",       # активная кнопка
+    "radiolist": "bg:#002b36 #00ff00",
+    "radiolist focused": "bg:#00ff00 #000000",
+})
 
 
 def load_toml():
@@ -57,19 +65,14 @@ def load_toml():
 
 def output_host():
     if not config:
-        print("Конфигурация пуста.")
+        message_dialog(
+        title="Error",
+        text="Конфигурация пуста.",
+        style=custom_style
+    ).run()
         return None
 
     # 1. Выбор группы
-    custom_style = Style.from_dict({
-        "dialog": "bg:#002b36",
-        "dialog frame.label": "bg:#002b36 #00ff00",
-        "dialog.body": "bg:#002b36 #00ff00",
-        "button": "bg:#002b36 #00ff00",
-        "button.focused": "bg:#00ff00 #000000",
-        "radiolist": "bg:#002b36 #00ff00",
-        "radiolist focused": "bg:#00ff00 #000000",
-    })  
     group = radiolist_dialog(
         title="Выбор группы",
         text="Выберите группу хостов:",
@@ -138,12 +141,12 @@ def output_host():
                     print("Ошибка: пароль не найден!")
                     return None
 
-            print(f"\nИнформация о хосте:")
-            print(f"Имя хоста: {selected['host_name']}")
+            print(f"\nInformation hosts:")
+            print(f"Name host: {selected['host_name']}")
             print(f"IP: {ip}")
-            print(f"Порт: {port}")
-            print(f"Пользователь: {user}")
-            print(f"Пароль: [скрыт]")
+            print(f"Port: {port}")
+            print(f"User: {user}")
+            print(f"Password: [shadow]")
 
             return ip, port, user, password
         else:
@@ -248,15 +251,6 @@ def del_entry_toml():
 def toml_conf():
     while True:
         load_toml()
-        custom_style = Style.from_dict({
-    "dialog": "bg:#002b36",
-    "dialog frame.label": "bg:#002b36 #00ff00",  # цвет заголовка
-    "dialog.body": "bg:#002b36 #00ff00",         # фон и цвет текста
-    "button": "bg:#002b36 #00ff00",
-    "button.focused": "bg:#00ff00 #000000",       # активная кнопка
-    "radiolist": "bg:#002b36 #00ff00",
-    "radiolist focused": "bg:#00ff00 #000000",
-})
         button_toml = radiolist_dialog(
             title="SSH Client Menu",
             text="Select a task for toml",
