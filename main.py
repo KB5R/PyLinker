@@ -6,10 +6,16 @@ from prompt_toolkit.shortcuts import button_dialog
 from prompt_toolkit.shortcuts import radiolist_dialog
 from toml_config import load_toml, add_entry_toml, del_entry_toml, toml_conf, output_host # Func from toml_conf.py
 from prompt_toolkit.styles import Style
+from pathlib import Path
+
+config_dir = Path.home() / ".pylinker" # from pathlib import Path
+config_file = config_dir / "config.toml"
+log_file = config_dir / "pylinker.log"
+
 
 # import loging
 logging.basicConfig(
-    filename='pylinker.log',            # Имя файла логов
+    filename=log_file,            # Имя файла логов
     filemode='a',                         # Режим дозаписи (append)
     format='%(asctime)s - %(levelname)s - %(message)s',
     level=logging.INFO
@@ -86,9 +92,31 @@ def connect_to_inteactive_session_ssh():
 #         elif button_main == "exit":
 #             break
 
+def init_file():
+    config_dir = Path.home() / ".pylinker" # from pathlib import Path
+    config_file = config_dir / "config.toml"
+    log_file = config_dir / "pylinker.log"
+    
+    # Создаём директорию, если её нет
+    config_dir.mkdir(exist_ok=True)
+    
+    # Создаём config.toml (пустой), если его нет
+    if not config_file.exists():
+        config_file.touch()  # Создаёт пустой файл
+        logging.info(f"Created empty config file at {config_file}")
+    
+    # Создаём log-файл (пустой), если его нет
+    if not log_file.exists():
+        log_file.touch()
+        logging.info(f"Created empty log file at {log_file}")
+    
+    logging.info("File initialization completed")
+    return config_file, log_file
 
+    
 
 def main():
+    init_file()
     while True:        
         button_main = radiolist_dialog(
             title="SSH Client Menu",

@@ -6,8 +6,14 @@ from tabulate import tabulate
 from prompt_toolkit.shortcuts import message_dialog
 from prompt_toolkit.shortcuts import radiolist_dialog
 from prompt_toolkit.styles import Style
+from pathlib import Path
+
+config_dir = Path.home() / ".pylinker" # from pathlib import Path
+config_file = config_dir / "config.toml"
+log_file = config_dir / "pylinker.log"
 # Загрузка конфига
-with open("config.toml") as f:
+
+with open(config_file) as f:
     config = toml.load(f)
 
 table_data = []
@@ -15,7 +21,7 @@ host_entries = []  # Список для хранения данных по по
 
 
 logging.basicConfig(
-    filename='pylinker.log',            # Имя файла логов
+    filename=log_file,            # Имя файла логов
     filemode='a',                         # Режим дозаписи (append)
     format='%(asctime)s - %(levelname)s - %(message)s',
     level=logging.INFO
@@ -188,7 +194,7 @@ def add_entry_toml():
     }
 
     # Сохраняем конфиг
-    with open("config.toml", "w") as f:
+    with open(config_file, "w") as f:
         for group_name, hosts in config.items():
             f.write(f"[{group_name}]\n")
             for host_name, details in hosts.items():
@@ -230,7 +236,7 @@ def del_entry_toml():
                     del config[group]
 
                 # Сохраняем изменения
-                with open("config.toml", "w") as f:
+                with open(config_file, "w") as f:
                     for group_name, hosts in config.items():
                         f.write(f"[{group_name}]\n")
                         for host_name, details in hosts.items():
