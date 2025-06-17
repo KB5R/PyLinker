@@ -31,29 +31,29 @@ custom_style = Style.from_dict({ # Вынес что бы не дублиров�
     "radiolist focused": "bg:#00ff00 #000000",
 })
 
-def inteactive_session_ssh(host, user, port, password):
-    try:
-# Данная команда cmd формирует как мы будем подключатся по ssh    
-        cmd = [ 
-            "sshpass", "-p", password, "ssh", f"{user}@{host}",
-            "-p", str(port), "-o", "StrictHostKeyChecking=no" # Что бы не показывалось сообщение о обмене рукопажатиями
-        ]
+# def inteactive_session_ssh(host, user, port, password):
+#     try:
+# # Данная команда cmd формирует как мы будем подключатся по ssh    
+#         cmd = [ 
+#             "sshpass", "-p", password, "ssh", f"{user}@{host}",
+#             "-p", str(port), "-o", "StrictHostKeyChecking=no" # Что бы не показывалось сообщение о обмене рукопажатиями
+#         ]
 
 
 
-        logging.info(f"Starting SSH session to {user}@{host}:{port}")
-        subprocess.run(cmd, check=True)
-        logging.info(f"SSH session to {user}@{host}:{port} finished successfully")
+#         logging.info(f"Starting SSH session to {user}@{host}:{port}")
+#         subprocess.run(cmd, check=True)
+#         logging.info(f"SSH session to {user}@{host}:{port} finished successfully")
 
 
-    except subprocess.TimeoutExpired:
-        logging.error("SSH session killed due to timeout.")
+#     except subprocess.TimeoutExpired:
+#         logging.error("SSH session killed due to timeout.")
 
-    except subprocess.CalledProcessError as e:
-        logging.error(f"SSH failed with error: {e}")
+#     except subprocess.CalledProcessError as e:
+#         logging.error(f"SSH failed with error: {e}")
 
-    except Exception as e:
-        logging.error(f"Unexpected error occurred: {e}")
+#     except Exception as e:
+#         logging.error(f"Unexpected error occurred: {e}")
 
 
 def connect_to_inteactive_session_ssh():
@@ -116,7 +116,7 @@ def init_file():
     
 
 def main():
-    init_file()
+#    init_file()
     while True:        
         button_main = radiolist_dialog(
             title="SSH Client Menu",
