@@ -3,7 +3,16 @@
 ⚠ **Unstable version!!! 13.06.2025**
 
 # Version
-- 0.1 (Experimental) 09.06.25
+- 0.1 (Experimental) 09.06.25 (Remove)
+- 0.2 (Experimental) 17.06.25
+
+# START ✅ 
+```
+git clone https://github.com/KB5R/PyLinker.git
+cd PyLinker
+cp pylink /usr/bin/
+```
+
 
 
 ## Overview  
