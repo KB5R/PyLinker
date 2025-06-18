@@ -184,18 +184,42 @@ def output_host():
         print("Введите корректное число!")
         return None
 
+from prompt_toolkit.shortcuts import input_dialog
+
 
 def add_entry_toml():
-    group = input("Введите имя существующей группы или новую для её создания: ").strip()
-    name = input("Введите имя нового хоста (должно быть уникальным в пределах группы): ").strip()
+#    group = input("Введите имя существующей группы или новую для её создания: ").strip()
+    group = input_dialog(
+        title='Add entry toml',
+        text='Введите имя существующей группы или новую для её создания:', style=custom_style).run().strip()
+    
+#    name = input("Введите имя нового хоста (должно быть уникальным в пределах группы): ").strip()
+    name = input_dialog(
+        title='Add entry toml',
+        text='Введите имя нового хоста (должно быть уникальным в пределах группы):', style=custom_style).run().strip()
+    
+#    ip = input("Введите адрес хоста (example.com или 192.168.1.1): ").strip()
+    ip = input_dialog(
+        title='Add entry toml',
+        text='Введите адрес хоста (example.com или 192.168.1.1):', style=custom_style).run().strip()
 
-    ip = input("Введите адрес хоста (example.com или 192.168.1.1): ").strip()
-    port_input = input("Введите порт (по умолчанию 22): ").strip()
+#    port_input = input("Введите порт (по умолчанию 22): ").strip()
+    port_input = input_dialog(
+        title='Add entry toml',
+        text='Введите порт (по умолчанию 22):', style=custom_style).run().strip()
     port = int(port_input) if port_input else 22
-    user = input("Введите пользователя: ").strip()
-    password = getpass("Введите пароль: ").strip()
 
-    # Создаём группу, если её ещё нет
+#    user = input("Введите пользователя: ").strip()
+    user = input_dialog(
+        title='Add entry toml',
+        text='Введите пользователя:', style=custom_style).run().strip()
+
+#    password = getpass("Введите пароль: ").strip()
+    password = input_dialog(
+        title='Add entry toml',
+        text='Введите имя существующей группы или новую для её создания:', password=True, style=custom_style).run().strip()
+
+
     if group not in config:
         config[group] = {}
 
