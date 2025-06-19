@@ -5,6 +5,7 @@ from getpass import getpass
 from tabulate import tabulate
 from prompt_toolkit.shortcuts import message_dialog
 from prompt_toolkit.shortcuts import radiolist_dialog
+from prompt_toolkit.shortcuts import yes_no_dialog
 from prompt_toolkit.styles import Style
 from pathlib import Path
 
@@ -217,7 +218,7 @@ def add_entry_toml():
 #    password = getpass("Введите пароль: ").strip()
     password = input_dialog(
         title='Add entry toml',
-        text='Введите имя существующей группы или новую для её создания:', password=True, style=custom_style).run().strip()
+        text='Введите пароль:', password=True, style=custom_style).run().strip()
 
 
     if group not in config:
@@ -264,8 +265,10 @@ def del_entry_toml():
             host_name = selected["host_name"]
             user = selected["user"]
 
-            confirm = input(f"Удалить хост '{host_name}' из группы '{group}'? (y/n): ").strip().lower()
-            if confirm == 'y':
+            #confirm = input(f"Удалить хост '{host_name}' из группы '{group}'? (y/n): ").strip().lower()
+
+            confirm = yes_no_dialog(title='Yes/No dialog example',text='Do you want to confirm?').run()
+            if confirm == True:
                 # Удаляем пароль из keyring
                 if selected.get("password_storage") == "keyring":
                     service_name = f"pylinker_{group}_{host_name}"
