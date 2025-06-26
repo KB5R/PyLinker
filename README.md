@@ -7,12 +7,16 @@
 - 0.2 (Experimental) 17.06.25
 
 # START ✅ 
+### Install pylink
 ```
-git clone https://github.com/KB5R/PyLinker.git
-cd PyLinker
-cp pylink /usr/bin/
-```
+curl -s https://raw.githubusercontent.com/KB5R/PyLinker/main/install.sh | bash
 
+pylink
+```
+### Remove pylink
+```
+curl -s https://raw.githubusercontent.com/KB5R/PyLinker/main/remove.sh | bash
+```
 
 
 ## Overview  
