@@ -50,17 +50,6 @@ logging.basicConfig(
     level=logging.INFO
 )
 
-custom_style = Style.from_dict({ # Вынес что бы не дублировать (Черный фон, зеленые линии)
-    "dialog": "bg:#002b36",
-    "dialog frame.label": "bg:#002b36 #00ff00",  # цвет заголовка
-    "dialog.body": "bg:#002b36 #00ff00",         # фон и цвет текста
-    "button": "bg:#002b36 #00ff00",
-    "button.focused": "bg:#00ff00 #000000",       # активная кнопка
-    "radiolist": "bg:#002b36 #00ff00",
-    "radiolist focused": "bg:#00ff00 #000000",
-})
-
-
 def load_toml():
     table_data.clear()
     host_entries.clear()
@@ -96,8 +85,7 @@ def output_host():
     if not config:
         message_dialog(
         title="Error",
-        text="Конфигурация пуста.",
-        style=custom_style
+        text="Конфигурация пуста."
     ).run()
         return None
 
@@ -105,8 +93,7 @@ def output_host():
     group = radiolist_dialog(
         title="Выбор группы",
         text="Выберите группу хостов:",
-        values=[(g, g) for g in config.keys()],
-        style=custom_style
+        values=[(g, g) for g in config.keys()]
     ).run()
     
     if group is None:
@@ -192,33 +179,33 @@ def add_entry_toml():
 #    group = input("Введите имя существующей группы или новую для её создания: ").strip()
     group = input_dialog(
         title='Add entry toml',
-        text='Введите имя существующей группы или новую для её создания:', style=custom_style).run().strip()
+        text='Введите имя существующей группы или новую для её создания:').run().strip()
     
 #    name = input("Введите имя нового хоста (должно быть уникальным в пределах группы): ").strip()
     name = input_dialog(
         title='Add entry toml',
-        text='Введите имя нового хоста (должно быть уникальным в пределах группы):', style=custom_style).run().strip()
+        text='Введите имя нового хоста (должно быть уникальным в пределах группы):').run().strip()
     
 #    ip = input("Введите адрес хоста (example.com или 192.168.1.1): ").strip()
     ip = input_dialog(
         title='Add entry toml',
-        text='Введите адрес хоста (example.com или 192.168.1.1):', style=custom_style).run().strip()
+        text='Введите адрес хоста (example.com или 192.168.1.1):').run().strip()
 
 #    port_input = input("Введите порт (по умолчанию 22): ").strip()
     port_input = input_dialog(
         title='Add entry toml',
-        text='Введите порт (по умолчанию 22):', style=custom_style).run().strip()
+        text='Введите порт (по умолчанию 22):').run().strip()
     port = int(port_input) if port_input else 22
 
 #    user = input("Введите пользователя: ").strip()
     user = input_dialog(
         title='Add entry toml',
-        text='Введите пользователя:', style=custom_style).run().strip()
+        text='Введите пользователя:').run().strip()
 
 #    password = getpass("Введите пароль: ").strip()
     password = input_dialog(
         title='Add entry toml',
-        text='Введите пароль:', password=True, style=custom_style).run().strip()
+        text='Введите пароль:', password=True).run().strip()
 
 
     if group not in config:
@@ -314,8 +301,7 @@ def toml_conf():
                 ("Dell", "2. Del entry toml"),
                 ("Output", "3. Output entry toml"),
                 ("Exit", "0. Exit")
-            ],
-            style=custom_style
+            ]
         ).run()
         
 

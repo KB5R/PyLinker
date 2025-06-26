@@ -20,17 +20,6 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s',
     level=logging.INFO
 )
-
-custom_style = Style.from_dict({ # Вынес что бы не дублировать (Черный фон, зеленые линии)
-    "dialog": "bg:#002b36",
-    "dialog frame.label": "bg:#002b36 #00ff00",  # цвет заголовка
-    "dialog.body": "bg:#002b36 #00ff00",         # фон и цвет текста
-    "button": "bg:#002b36 #00ff00",
-    "button.focused": "bg:#00ff00 #000000",       # активная кнопка
-    "radiolist": "bg:#002b36 #00ff00",
-    "radiolist focused": "bg:#00ff00 #000000",
-})
-
 def inteactive_session_ssh(host, user, port, password):
     try:
 # Данная команда cmd формирует как мы будем подключатся по ssh    
@@ -126,7 +115,7 @@ def main():
                 ("toml", "2. Settings database (TOML)"),
                 ("exit", "0. Exit"),
             ],
-            style=custom_style # Подключение themes
+#            style=custom_style # Подключение themes
         ).run()
 
         if button_main == "ssh":
