@@ -11,6 +11,8 @@
 ```
 curl -s https://raw.githubusercontent.com/KB5R/PyLinker/main/install.sh | bash
 
+```
+```
 pylink
 ```
 ### Remove pylink
