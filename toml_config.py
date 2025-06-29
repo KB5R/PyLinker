@@ -84,9 +84,9 @@ def load_toml():
 def output_host():
     if not config:
         message_dialog(
-        title="Error",
-        text="Конфигурация пуста."
-    ).run()
+            title="Ошибка",
+            text="Конфигурация пуста."
+        ).run()
         return None
 
     # 1. Выбор группы
@@ -97,80 +97,56 @@ def output_host():
     ).run()
     
     if group is None:
-        print("Группа не выбрана.")
         return None
 
     hosts = config.get(group, {})
     if not hosts:
-        print(f"Группа '{group}' не содержит хостов.")
+        message_dialog(
+            title="Ошибка",
+            text=f"Группа '{group}' не содержит хостов."
+        ).run()
         return None
 
-    # 2. Подготовка таблицы и выбора
-    local_host_entries = []
-    local_table = []
-
+    # 2. Формирование списка для выбора хоста
+    host_choices = []
     for host_name, details in hosts.items():
-        entry = {
-            "group": group,
-            "host_name": host_name,
-            "ip": details.get("ip"),
-            "port": details.get("port"),
-            "user": details.get("user"),
-            "password_storage": details.get("password_storage")  # Добавляем информацию о хранилище
-        }
-        local_host_entries.append(entry)
-        
-        # В таблице не показываем пароль, только отметку о его наличии
+        ip = details.get("ip", "???")
+        port = details.get("port", "22")
+        user = details.get("user", "???")
         password_display = "[keyring]" if details.get("password_storage") == "keyring" else "[plain]"
-        local_table.append([
-            host_name,
-            details.get("ip", ""),
-            details.get("port", ""),
-            details.get("user", ""),
-            password_display
-        ])
+        label = f"{host_name} ({ip}:{port}, {user}) {password_display}"
+        host_choices.append(((group, host_name), label))
 
-    headers = ["№", "Hostname", "IP", "Port", "User", "Password Storage"]
-    numbered_table = [[i + 1] + row for i, row in enumerate(local_table)]
-    print(tabulate(numbered_table, headers=headers, tablefmt="grid"))
+    # 3. Выбор хоста через TUI
+    selected = radiolist_dialog(
+        title="Выбор хоста",
+        text="Выберите хост для подключения:",
+        values=host_choices
+    ).run()
 
-    # 3. Выбор хоста
-    try:
-        choice = int(input("\nВведите номер хоста для вывода: "))
-        if 1 <= choice <= len(local_host_entries):
-            selected = local_host_entries[choice - 1]
-            ip = selected["ip"]
-            port = selected["port"]
-            user = selected["user"]
-        
-            # Получаем пароль из keyring или из конфига
-            if selected.get("password_storage") == "keyring":
-                service_name = f"pylinker_{group}_{selected['host_name']}"
-                password = keyring.get_password(service_name, user)
-                if password is None:
-                    print("Ошибка: не удалось получить пароль из хранилища!")
-                    return None
-            else:
-                # Для обратной совместимости с старыми записями
-                password = hosts[selected["host_name"]].get("password")
-                if password is None:
-                    print("Ошибка: пароль не найден!")
-                    return None
-
-            print(f"\nInformation hosts:")
-            print(f"Name host: {selected['host_name']}")
-            print(f"IP: {ip}")
-            print(f"Port: {port}")
-            print(f"User: {user}")
-            print(f"Password: [shadow]")
-
-            return ip, port, user, password
-        else:
-            print("Неверный номер.")
-            return None
-    except ValueError:
-        print("Введите корректное число!")
+    if selected is None:
         return None
+
+    group, host_name = selected
+    selected_host = hosts[host_name]
+    ip = selected_host.get("ip")
+    port = selected_host.get("port", 22)
+    user = selected_host.get("user")
+
+    # Получение пароля
+    if selected_host.get("password_storage") == "keyring":
+        service_name = f"pylinker_{group}_{host_name}"
+        password = keyring.get_password(service_name, user)
+        if password is None:
+            message_dialog(title="Ошибка", text="Не удалось получить пароль из keyring!").run()
+            return None
+    else:
+        password = selected_host.get("password")
+        if password is None:
+            message_dialog(title="Ошибка", text="Пароль не найден в конфигурации!").run()
+            return None
+
+    return ip, port, user, password
 
 from prompt_toolkit.shortcuts import input_dialog
 
