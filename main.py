@@ -4,7 +4,7 @@ import logging
 from prompt_toolkit import prompt
 from prompt_toolkit.shortcuts import button_dialog
 from prompt_toolkit.shortcuts import radiolist_dialog
-from toml_config import load_toml, add_entry_toml, del_entry_toml, toml_conf, output_host # Func from toml_conf.py
+from toml_config import load_toml, add_entry_toml, dell_hosts, toml_conf, output_host # Func from toml_conf.py
 from prompt_toolkit.styles import Style
 from pathlib import Path
 
