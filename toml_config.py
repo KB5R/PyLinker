@@ -295,57 +295,6 @@ def add_entry_toml():
     print(f"Хост '{name}' успешно добавлен в группу '{group}' и сохранён.")
     logging.info(f"Хост '{name}' успешно добавлен в группу '{group}' и сохранён.")
 
-
-def del_entry_toml():
-    print("Выберите какой host вы хотите удалить")
-    load_toml()
-
-    try:
-        choice = int(input("\nВведите номер хоста для удаления: "))
-        if 1 <= choice <= len(host_entries):
-            selected = host_entries[choice - 1]
-            group = selected["group"]
-            host_name = selected["host_name"]
-            user = selected["user"]
-
-            #confirm = input(f"Удалить хост '{host_name}' из группы '{group}'? (y/n): ").strip().lower()
-
-            confirm = yes_no_dialog(title='Yes/No dialog example',text='Do you want to confirm?').run()
-            if confirm == True:
-                # Удаляем пароль из keyring
-                if selected.get("password_storage") == "keyring":
-                    service_name = f"pylinker_{group}_{host_name}"
-                    try:
-                        keyring.delete_password(service_name, user)
-                    except keyring.errors.PasswordDeleteError:
-                        pass  # Пароль уже удален или не существует
-
-                # Удаляем запись из конфига
-                del config[group][host_name]
-
-                # Если группа пуста — удалить и её
-                if not config[group]:
-                    del config[group]
-
-                # Сохраняем изменения
-                with open(config_file, "w") as f:
-                    for group_name, hosts in config.items():
-                        f.write(f"[{group_name}]\n")
-                        for host_name, details in hosts.items():
-                            inline = ", ".join([f'{k} = "{v}"' for k, v in details.items() if k != 'password'])
-                            f.write(f'{host_name} = {{ {inline} }}\n')
-                        f.write("\n")
-
-                print(f"Хост '{host_name}' успешно удалён.")
-            else:
-                print("Удаление отменено.")
-        else:
-            print("Неверный номер.")
-    except ValueError:
-        print("Введите корректное число.")
-
-
-
 def toml_conf():
     while True:
         load_toml()
