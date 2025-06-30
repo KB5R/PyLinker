@@ -53,34 +53,6 @@ def connect_to_inteactive_session_ssh():
         inteactive_session_ssh(host, user, port, password)
 
 
-
-# Пока уберем что бы не перегружать интерфес
-# def main():
-#     while True:        
-#         button_main = radiolist_dialog(
-#             title="SSH Client Menu",
-#             text="Select action:",
-#             values=[
-#                 ("ssh_main",  "1. SSH"),
-#                 ("sftp_main", "2. SFTP [OFF]"),
-#                 ("vnc_main", "3. VNC [OFF]"),
-#                 ("rdp_main", "4. RDP [OFF]"),
-#                 ("exit", "0. Exit"),
-#             ],
-#             style=custom_style # Подключение themes
-#         ).run()
-
-#         if button_main == "ssh_main":
-#             ssh_menu()
-#         elif button_main == "sftp_mai": # Обртите внимание на комнду для обработаки так называемые заглушки
-#             ssh_menu() 
-#         elif button_main == "vnc_mai": # Обртите внимание на комнду для обработаки так называемые заглушки
-#             ssh_menu()
-#         elif button_main == "rdp_mai": # Обртите внимание на комнду для обработаки так называемые заглушки
-#             ssh_menu()
-#         elif button_main == "exit":
-#             break
-
 def init_file():
     config_dir = Path.home() / ".pylinker" # from pathlib import Path
     config_file = config_dir / "config.toml"
