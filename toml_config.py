@@ -239,7 +239,17 @@ from prompt_toolkit.shortcuts import input_dialog
 
 
 def add_entry_toml():
-    group = input_dialog(
+    group = radiolist_dialog(
+        title="Выбор группы",
+        text="Выберите группу хостов:",
+        values = [(g, g) for g in config.keys()] + [("__new__", "Создать новую группу")]
+    ).run()
+
+    if group is None:
+        return
+    
+    if group == "__new__":
+        group = input_dialog(
         title='Add entry toml',
         text='Введите имя существующей группы или новую для её создания:').run().strip()
     
@@ -292,7 +302,6 @@ def add_entry_toml():
                 f.write(f'{host_name} = {{ {inline} }}\n')
             f.write("\n")
 
-    print(f"Хост '{name}' успешно добавлен в группу '{group}' и сохранён.")
     logging.info(f"Хост '{name}' успешно добавлен в группу '{group}' и сохранён.")
 
 def toml_conf():
