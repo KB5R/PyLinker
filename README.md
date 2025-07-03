@@ -16,7 +16,7 @@ apt install sshpass
 ```
 or
 ```
-dnf5 install sshpass
+dnf install sshpass
 ```
 ```
 pylink
