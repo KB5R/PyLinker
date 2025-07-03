@@ -12,6 +12,13 @@
 curl -s https://raw.githubusercontent.com/KB5R/PyLinker/main/install.sh | bash
 ```
 ```
+apt install sshpass
+```
+or
+```
+dnf5 install sshpass
+```
+```
 pylink
 ```
 ### Remove pylink
