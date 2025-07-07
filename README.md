@@ -46,6 +46,7 @@ Useful for:
 - 🔶 Partial / Experimental
 - ⚠️ Planned
 ## Plans
+- ⚠️ Migrate from prompt_toolkit to urwid
 - 🔶 TUI
 - 🔶 Timeouts
 - 🔶 Password to keyring
