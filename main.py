@@ -4,7 +4,7 @@ import logging
 from prompt_toolkit import prompt
 from prompt_toolkit.shortcuts import button_dialog
 from prompt_toolkit.shortcuts import radiolist_dialog
-from toml_config import load_toml, add_entry_toml, del_entry_toml, toml_conf, output_host # Func from toml_conf.py
+from toml_config import load_toml, add_entry_toml, dell_hosts, toml_conf, output_host # Func from toml_conf.py
 from prompt_toolkit.styles import Style
 from pathlib import Path
 
@@ -20,17 +20,6 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s',
     level=logging.INFO
 )
-
-custom_style = Style.from_dict({ # Вынес что бы не дублировать (Черный фон, зеленые линии)
-    "dialog": "bg:#002b36",
-    "dialog frame.label": "bg:#002b36 #00ff00",  # цвет заголовка
-    "dialog.body": "bg:#002b36 #00ff00",         # фон и цвет текста
-    "button": "bg:#002b36 #00ff00",
-    "button.focused": "bg:#00ff00 #000000",       # активная кнопка
-    "radiolist": "bg:#002b36 #00ff00",
-    "radiolist focused": "bg:#00ff00 #000000",
-})
-
 def inteactive_session_ssh(host, user, port, password):
     try:
 # Данная команда cmd формирует как мы будем подключатся по ssh    
@@ -63,34 +52,6 @@ def connect_to_inteactive_session_ssh():
         # Передвем данные дальше
         inteactive_session_ssh(host, user, port, password)
 
-
-
-# Пока уберем что бы не перегружать интерфес
-# def main():
-#     while True:        
-#         button_main = radiolist_dialog(
-#             title="SSH Client Menu",
-#             text="Select action:",
-#             values=[
-#                 ("ssh_main",  "1. SSH"),
-#                 ("sftp_main", "2. SFTP [OFF]"),
-#                 ("vnc_main", "3. VNC [OFF]"),
-#                 ("rdp_main", "4. RDP [OFF]"),
-#                 ("exit", "0. Exit"),
-#             ],
-#             style=custom_style # Подключение themes
-#         ).run()
-
-#         if button_main == "ssh_main":
-#             ssh_menu()
-#         elif button_main == "sftp_mai": # Обртите внимание на комнду для обработаки так называемые заглушки
-#             ssh_menu() 
-#         elif button_main == "vnc_mai": # Обртите внимание на комнду для обработаки так называемые заглушки
-#             ssh_menu()
-#         elif button_main == "rdp_mai": # Обртите внимание на комнду для обработаки так называемые заглушки
-#             ssh_menu()
-#         elif button_main == "exit":
-#             break
 
 def init_file():
     config_dir = Path.home() / ".pylinker" # from pathlib import Path
@@ -126,7 +87,7 @@ def main():
                 ("toml", "2. Settings database (TOML)"),
                 ("exit", "0. Exit"),
             ],
-            style=custom_style # Подключение themes
+#            style=custom_style # Подключение themes
         ).run()
 
         if button_main == "ssh":

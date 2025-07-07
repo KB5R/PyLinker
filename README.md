@@ -3,7 +3,28 @@
 ⚠ **Unstable version!!! 13.06.2025**
 
 # Version
-- 0.1 (Experimental) 09.06.25
+- 0.1 (Experimental) 09.06.25 (Remove)
+- 0.2 (Experimental) 17.06.25
+
+# START ✅ 
+### Install pylink
+```
+curl -s https://raw.githubusercontent.com/KB5R/PyLinker/main/install.sh | bash
+```
+```
+apt install sshpass
+```
+or
+```
+dnf install sshpass
+```
+```
+pylink
+```
+### Remove pylink
+```
+curl -s https://raw.githubusercontent.com/KB5R/PyLinker/main/remove.sh | bash
+```
 
 
 ## Overview  
@@ -25,6 +46,7 @@ Useful for:
 - 🔶 Partial / Experimental
 - ⚠️ Planned
 ## Plans
+- ⚠️ Migrate from prompt_toolkit to urwid
 - 🔶 TUI
 - 🔶 Timeouts
 - 🔶 Password to keyring
